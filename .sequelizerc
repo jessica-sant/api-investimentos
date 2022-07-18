@@ -1,0 +1,10 @@
+const path = require('path');
+//importando biblioteca do node pra manipulacao de diretorios mais facilmente
+//informando ao sequelize onde estao os arquivos
+
+module.exports = {
+  'config': path.resolve('src', 'database', 'config', 'config.js'),
+  'models-path': path.resolve('src', 'database', 'models'),
+  'seeders-path': path.resolve('src', 'database', 'seeders'),
+  'migrations-path': path.resolve('src', 'database', 'migrations'),
+};
