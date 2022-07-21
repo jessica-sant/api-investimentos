@@ -7,4 +7,6 @@ router.get('/', assetsController.getAllAssets)
 
 router.get('/:id', assetsController.getAssetById)
 
+router.get('/client/:id', assetsController.getUserWithAsset)
+
 module.exports = router;

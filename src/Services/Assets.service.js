@@ -16,7 +16,18 @@ const getAssetById = async (id) => {
   return rest;
 }
 
+const getUserWithAsset = async(id) => {
+  const [data] = await assetsModel.getUserWithAsset(id);
+
+  if(!data || data.length === 0){
+    return CustomException({ message: 'User does not exist', status:404 })
+  }
+
+  return data;
+}
+
 module.exports = {
   getAssets,
-  getAssetById
+  getAssetById,
+  getUserWithAsset
 }

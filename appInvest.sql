@@ -6,7 +6,7 @@ CREATE TABLE AppInvest.ativos(
     id INT  PRIMARY KEY AUTO_INCREMENT,
     nome  VARCHAR(100) NOT NULL,
     valor DECIMAL(5,2) NOT NULL,
-    quantidade INT NOT NULL
+    estoque INT NOT NULL
 ) engine = InnoDB; 
 
 CREATE TABLE AppInvest.usuarios(
@@ -36,7 +36,7 @@ CREATE TABLE AppInvest.investimentos(
 ) engine = InnoDB; 
 
 
-INSERT INTO AppInvest.ativos (nome, valor, quantidade)
+INSERT INTO AppInvest.ativos (nome, valor, estoque)
 VALUES
   ('xpto1', 350.00, 100 ),
   ('xpto2', 7.99, 100);
@@ -56,3 +56,5 @@ INSERT INTO AppInvest.investimentos ( usuario_id, ativo_id, quantidade )
 VALUES
   (1, 2, 30),
   (2, 1, 15);
+
+
