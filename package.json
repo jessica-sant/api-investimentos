@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/jessica-sant/Desafio-Tecnico-TurmaXP-Trybe#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.1",
     "eslint-config-trybe-backend": "^1.0.4",
     "express": "^4.18.1",
