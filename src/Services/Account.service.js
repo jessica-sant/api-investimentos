@@ -18,7 +18,17 @@ const withdrawMoney = async (codCliente, valor) => {
   return {codCliente, valor};
 }
 
+const depositMoney = async (codCliente, valor) => {
+  const [data] = await accountModel.getWalletById(codCliente);
+  if(valor <= 0){
+    return CustomException({ message: 'valor inválido', status: 404 });
+  }
+  await accountModel.depositMoney(codCliente, valor);
+  return {codCliente, valor};
+}
+
 module.exports = {
   getWalletById,
-  withdrawMoney
+  withdrawMoney,
+  depositMoney
 };

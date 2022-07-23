@@ -12,7 +12,13 @@ const withdrawMoney = async (req, res) => {
   res.status(200).json(updatedWallet);
 }
 
+const depositMoney = async (req, res) => {
+  const {codCliente, valor}= req.body;
+  const updatedWallet = await accountService.depositMoney(codCliente, valor);
+  res.status(200).json(updatedWallet);
+}
 module.exports = {
   getWalletById,
-  withdrawMoney
+  withdrawMoney,
+  depositMoney
 }

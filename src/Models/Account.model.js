@@ -18,8 +18,17 @@ const withdrawMoney = async (codCliente, valor) => {
   return data;
 };
 
+const depositMoney = async (codCliente, valor) => {
+  const [data] = await connection.execute(
+    `UPDATE AppInvest.carteira SET saldo = (saldo + ?)
+  WHERE userId = ?`,
+    [valor, codCliente]
+  );
+  return data;
+};
 
 module.exports = {
   getWalletById,
   withdrawMoney,
+  depositMoney
 };
