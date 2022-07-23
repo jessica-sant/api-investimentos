@@ -2,8 +2,9 @@ const express = require('express');
 
 const router = express.Router();
 
-const {investimentController} = require('../Controllers');
+const {investmentController} = require('../Controllers');
 
-router.post('/comprar', investimentController.createInvestment)
+router.post('/comprar', investmentController.createInvestment)
+router.post ('/vender', investmentController.sellAsset)
 
 module.exports = router;

@@ -1,30 +1,30 @@
 const { accountModel } = require('../Models');
 const CustomException = require('../utils/CustomException');
 
-const getWalletById = async (codCliente) => {
-  const [data] = await accountModel.getWalletById(codCliente);
+const getWalletById = async (id) => {
+  const [data] = await accountModel.getWalletById(id);
   if (!data) {
     return CustomException({ message: 'NOT FOUND', status: 404 });
   }
   return data;
 };
 
-const withdrawMoney = async (codCliente, valor) => {
-  const [data] = await accountModel.getWalletById(codCliente);
-  if(valor > data.saldo || valor <= 0){
-    return CustomException({ message: 'saldo insuficiente', status: 404 });
+const withdrawMoney = async (id, value) => {
+  const [data] = await accountModel.getWalletById(id);
+  if(value > data.balance || value <= 0){
+    return CustomException({ message: 'insufficient balance', status: 404 });
   }
-  await accountModel.withdrawMoney(codCliente, valor);
-  return {codCliente, valor};
+  await accountModel.withdrawMoney(id, value);
+  return {id, value};
 }
 
-const depositMoney = async (codCliente, valor) => {
-  const [data] = await accountModel.getWalletById(codCliente);
-  if(valor <= 0){
-    return CustomException({ message: 'valor inválido', status: 404 });
+const depositMoney = async (id, value) => {
+  const [data] = await accountModel.getWalletById(id);
+  if(value <= 0){
+    return CustomException({ message: 'Invalid value', status: 404 });
   }
-  await accountModel.depositMoney(codCliente, valor);
-  return {codCliente, valor};
+  await accountModel.depositMoney(id, value);
+  return {id, value};
 }
 
 module.exports = {

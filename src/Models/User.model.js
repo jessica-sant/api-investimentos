@@ -1,14 +1,14 @@
 const connection = require('../db/connection')
 
-const create = async (user) => {
+const createUser = async (user) => {
   const [newUser] = await connection.execute(
-    'INSERT INTO AppInvest.usuarios (nome, email, senha) VALUES (?,?,?)',
-    [user.nome, user.email, user.senha],
+    'INSERT INTO users (name, email, password) VALUES (?,?,?)',
+    [user.name, user.email, user.password],
   );
 
   return newUser;
 }
 
 module.exports = {
-  create,
+  createUser,
 }

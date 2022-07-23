@@ -1,18 +1,18 @@
 const {assetsModel} = require('../Models');
 const CustomException = require('../utils/CustomException');
 
-const getAssets = async () => {
-  const [data] = await assetsModel.getAll();
+const getAllAssets = async () => {
+  const [data] = await assetsModel.getAllAssets();
   return data;
 }
 
 const getAssetById = async (id) => {
-  const [data] = await assetsModel.getById(id);
+  const [data] = await assetsModel.getAssetById(id);
 
   if(!data || data.length === 0){
-    return CustomException({ message: 'asset not found', status:404 })
+    return CustomException({ message: 'asset does not exist', status:404 })
   }
-  const {nome, ...rest}= data[0];
+  const {name, ...rest}= data[0];
   return rest;
 }
 
@@ -27,7 +27,7 @@ const getUserWithAsset = async(id) => {
 }
 
 module.exports = {
-  getAssets,
+  getAllAssets,
   getAssetById,
   getUserWithAsset
 }

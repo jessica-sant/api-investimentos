@@ -1,48 +1,86 @@
-const {investmentsModel} = require('../Models');
+const { investmentsModel } = require('../Models');
 const CustomException = require('../utils/CustomException');
-const assetsService = require('./Assets.service')
+const assetsService = require('./Assets.service');
+const accountService = require('./Account.service');
 
+const checkStock = async (quantity, assetId) => {
+  const asset = await assetsService.getAssetById(assetId);
 
-const checkStock = async (quantity, IdAtivo ) => {
-    const ativo = await assetsService.getAssetById(IdAtivo);
-
-    if( quantity > ativo.quantidade){
-    return CustomException({ message: 'estoque insuficiente', status:404 })
+  if (quantity > asset.quantity) {
+    return CustomException({ message: 'insufficient stock', status: 400 });
   }
-  return [ativo.valor, ativo.estoque]
-}
+  return [asset.value, asset.stock];
+};
 
-const checkWallet = async (usuarioId, valor, quantidade) => {
-  const {saldo} = await investmentsModel.getWallet(usuarioId)
+const checkWallet = async (userId, value, quantity) => {
+  const { balance } = await accountService.getWalletById(userId);
 
-  const total = quantidade * valor;
-  if(total > saldo){
-    return CustomException({ message: 'saldo insuficiente', status:404 })
+  const total = quantity * value;
+  if (total > balance) {
+    return CustomException({ message: 'insufficient balance', status: 400 });
   }
-  const newSaldo = saldo - total;
-  await investmentsModel.updateSaldo(usuarioId, newSaldo )
+  const newBalance = balance - total;
+  await investmentsModel.updateSaldo(userId, newBalance);
   return;
-}
+};
 
+const createInvestment = async (order) => {
+  const { userId, assetId, quantity } = order;
+  const [valueAsset, Stock] = await checkStock(quantity, assetId);
+  const newStock = Stock - quantity;
+  await checkWallet(userId, valueAsset, quantity);
+  await investmentsModel.updateStock(newStock, assetId);
+  const investments = await investmentsModel.getInvestments(
+    userId,
+    assetId
+  );
 
-const createInvestment = async (pedido) => {
-  const {usuarioId, ativoId, quantidade} = pedido;
-  const [valorAtivo, estoque] = await checkStock(quantidade,ativoId);
-  const newEstoque = estoque - quantidade;
-  await checkWallet(usuarioId, valorAtivo, quantidade);
-  await investmentsModel.updateStock(newEstoque, ativoId );
-  const investimentos = await investmentsModel.getInvestiments(usuarioId, ativoId)
-
-  if(investimentos){
-    const newQuantity = investimentos.quantidade + quantidade;
-    await investmentsModel.updateQuantity(newQuantity,usuarioId, ativoId)
+  if (investments) {
+    const newQuantity = investments.quantity + quantity;
+    await investmentsModel.updateQuantity(newQuantity, userId, assetId);
   } else {
-    await investmentsModel.create(pedido);
+    await investmentsModel.create(order);
   }
 
-  return{...pedido, message:'compra aprovada'}
-}
+  return { ...order, message: 'your purchase has been approved' };
+};
+
+const updateBalance = async (userId, value, quantity) => {
+  const { balance } = await investmentsModel.getWallet(userId);
+  const total = quantity * value;
+  const newBalance = balance + total;
+  await investmentsModel.updateSaldo(userId, newBalance);
+  return;
+};
+
+const getAssetById = async (assetId) => {
+  const asset = await assetsService.getAssetById(assetId);
+  return [asset.value, asset.stock];
+};
+
+const sellAsset = async (order) => {
+  const { userId, assetId, quantity } = order;
+  const investments = await investmentsModel.getInvestiments(
+    userId,
+    assetId
+  );
+  if (
+    !investments ||
+    quantity > investments.quantity ||
+    quantity <= 0
+  ) {
+    return CustomException({ message: 'NOT FOUND', status: 404 });
+  }
+  const [valueAsset, stock] = await getAssetById(assetId);
+  await updateBalance(userId, valueAsset, quantity);
+  const newStock= quantity + stock;
+  await investmentsModel.updateStock(newStock, assetId);
+  const newQuantity = investments.quantity - quantity;
+  await investmentsModel.updateQuantity(newQuantity, userId, assetId);
+  return { ...order, message: 'your sale has been approved' };
+};
 
 module.exports = {
-  createInvestment
-}
+  createInvestment,
+  sellAsset,
+};

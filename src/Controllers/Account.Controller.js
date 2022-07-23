@@ -7,14 +7,14 @@ const getWalletById = async (req, res) => {
 };
 
 const withdrawMoney = async (req, res) => {
-  const {codCliente, valor}= req.body;
-  const updatedWallet = await accountService.withdrawMoney(codCliente, valor);
+  const {id, value}= req.body;
+  const updatedWallet = await accountService.withdrawMoney(id, value);
   res.status(200).json(updatedWallet);
 }
 
 const depositMoney = async (req, res) => {
-  const {codCliente, valor}= req.body;
-  const updatedWallet = await accountService.depositMoney(codCliente, valor);
+  const {id, value}= req.body;
+  const updatedWallet = await accountService.depositMoney(id, value);
   res.status(200).json(updatedWallet);
 }
 module.exports = {

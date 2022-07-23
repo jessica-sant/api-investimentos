@@ -3,11 +3,14 @@ const {userModel} = require('../Models');
 
 const createUser = async (user) => {
   const salt = bcrypt.genSaltSync(3);
-  user.senha = bcrypt.hashSync(user.senha, salt);
+  user.password = bcrypt.hashSync(user.password, salt);
 
-  const {insertId} = await userModel.create(user)
-  user.id = insertId;
-  return user;
+  const {insertId} = await userModel.createUser(user)
+  const newUser = {
+    id: insertId,
+    ...user
+  }
+  return newUser;
 }
 
 module.exports = {

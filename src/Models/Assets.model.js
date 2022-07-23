@@ -1,22 +1,22 @@
 const connection = require('../db/connection');
 
-const getAll = () => {
-  return connection.execute('SELECT * FROM AppInvest.ativos');
+const getAllAssets = () => {
+  return connection.execute('SELECT * FROM assets');
 }
 
-const getById = (id) => {
-  return connection.execute('SELECT * FROM AppInvest.ativos WHERE id = ?', [id])
+const getAssetById = (id) => {
+  return connection.execute('SELECT * FROM assets WHERE id = ?', [id])
 }
 
 const getUserWithAsset = (id) => {
-  return connection.execute(`SELECT usuario_id, ativo_id, quantidade, valor FROM AppInvest.investimentos i
-  INNER JOIN AppInvest.ativos a
-  ON i.ativo_id = a.id
-  where usuario_id = ?`,[id])
+  return connection.execute(`SELECT userId, assetId, quantity, value FROM investments i
+  INNER JOIN assets a
+  ON i.assetId = a.id
+  where userId = ? and quantity > 0`,[id])
 }
 
 module.exports = {
-  getAll,
-  getById,
+  getAllAssets,
+  getAssetById,
   getUserWithAsset
 }
