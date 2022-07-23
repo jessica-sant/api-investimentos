@@ -6,6 +6,13 @@ const getWalletById = async (req, res) => {
   res.status(200).json(wallet);
 };
 
+const withdrawMoney = async (req, res) => {
+  const {codCliente, valor}= req.body;
+  const updatedWallet = await accountService.withdrawMoney(codCliente, valor);
+  res.status(200).json(updatedWallet);
+}
+
 module.exports = {
-  getWalletById
+  getWalletById,
+  withdrawMoney
 }
