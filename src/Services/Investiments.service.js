@@ -27,8 +27,8 @@ const checkWallet = async (userId, value, quantity) => {
 const createInvestment = async (order) => {
   const { userId, assetId, quantity } = order;
   const [valueAsset, Stock] = await checkStock(quantity, assetId);
-  const newStock = Stock - quantity;
   await checkWallet(userId, valueAsset, quantity);
+  const newStock = Stock - quantity;
   await investmentsModel.updateStock(newStock, assetId);
   const investments = await investmentsModel.getInvestments(
     userId,
@@ -47,7 +47,6 @@ const createInvestment = async (order) => {
 
 const updateBalance = async (userId, value, quantity) => {
   const { balance } = await accountService.getWalletById(userId);
-  console.log("🚀 ~ file: Investiments.service.js ~ line 50 ~ updateBalance ~ balance", balance)
   const total = quantity * value;
   const newBalance = balance + total;
   await investmentsModel.updateSaldo(userId, newBalance);
@@ -74,7 +73,7 @@ const sellAsset = async (order) => {
   }
   const [valueAsset, stock] = await getAssetById(assetId);
   await updateBalance(userId, valueAsset, quantity);
-  const newStock= quantity + stock;
+  const newStock = quantity + stock;
   await investmentsModel.updateStock(newStock, assetId);
   const newQuantity = investments.quantity - quantity;
   await investmentsModel.updateQuantity(newQuantity, userId, assetId);

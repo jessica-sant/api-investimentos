@@ -1,8 +1,13 @@
 const { accountModel } = require('../Models');
 const CustomException = require('../utils/CustomException');
 
-const getWalletById = async (id) => {
+const getWalletById = async (id, userId) => {
+  
+  if(Number(id) !== userId) {
+    return CustomException({ message: 'Unauthorized user', status:400 })
+  }
   const [data] = await accountModel.getWalletById(id);
+  
   if (!data) {
     return CustomException({ message: 'NOT FOUND', status: 404 });
   }

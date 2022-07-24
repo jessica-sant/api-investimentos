@@ -2,7 +2,8 @@ const {accountService} = require('../Services');
 
 const getWalletById = async (req, res) => {
   const {id} = req.params;
-  const wallet = await accountService.getWalletById(id)
+  const { id: userId } = res.locals.payload;
+  const wallet = await accountService.getWalletById(id, userId)
   res.status(200).json(wallet);
 };
 
