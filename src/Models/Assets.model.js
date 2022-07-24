@@ -1,7 +1,10 @@
 const connection = require('../db/connection');
 
 const getAllAssets = () => {
-  return connection.execute('SELECT * FROM assets');
+  return connection.execute(`SELECT assetId, name, stock, value, sum(quantity * value) as totalInvested FROM AppInvest.investments i
+  INNER JOIN AppInvest.assets a
+  on i.assetId = a.id
+  group by assetId`);
 }
 
 const getAssetById = (id) => {
