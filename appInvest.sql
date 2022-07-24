@@ -52,16 +52,16 @@ VALUES
 INSERT INTO AppInvest.users (name, email , password)
 VALUES
   
-  ('user1', 'aaaaa@aaa.aaa','password'),
-  ('user2', 'aaaaa@aaa.aaa','password'),
-  ('user3', 'aaaaa@aaa.aaa','password'),
-  ('user4', 'aaaaa@aaa.aaa','password'),
-  ('user5', 'aaaaa@aaa.aaa','password'),
-  ('user6', 'aaaaa@aaa.aaa','password'),
-  ('user7', 'aaaaa@aaa.aaa','password'),
-  ('user8', 'aaaaa@aaa.aaa','password'),
-  ('user9', 'aaaaa@aaa.aaa','password'),
-  ('user10', 'aaaaa@aaa.aaa','password');
+  ('user1', 'bbbbb@aaa.aaa','password1'),
+  ('user2', 'ccccc@aaa.aaa','password3'),
+  ('user3', 'dddddd@aaa.aaa','password4'),
+  ('user4', 'fffff@aaa.aaa','password5'),
+  ('user5', 'eeeeee@aaa.aaa','password6'),
+  ('user6', 'gggggg@aaa.aaa','password7'),
+  ('user7', 'jjjjjj@aaa.aaa','password8'),
+  ('user8', 'vvvvv@aaa.aaa','password9'),
+  ('user9', 'uuuu@aaa.aaa','password10'),
+  ('user10', 'aaaaa@aaa.aaa','password2');
   
 INSERT INTO AppInvest.wallet (userId, account, balance)
 VALUES
