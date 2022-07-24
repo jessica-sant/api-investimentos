@@ -2,7 +2,7 @@ const connection = require('../db/connection')
 
 const findUser = async (email, password) => {
   const [user] = await connection.execute(`SELECT * FROM users
-  where email = 'aaaaa@aaa.aaa' and password = 'password1'`, [email, password])
+  where email = ? and password = ?`, [email, password])
   return user;
 }
 

@@ -4,6 +4,8 @@ const router = express.Router();
 
 const {loginController} = require('../Controllers');
 
-router.use('/', loginController.findUser);
+const validateLogin = require('../middlewares/validateLogin')
+
+router.use('/', validateLogin, loginController.findUser);
 
 module.exports = router;
