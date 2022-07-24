@@ -1,8 +1,13 @@
 const connection = require('../db/connection')
 
+const getUserByEmail = async (email) => {
+  const [user] = await connection.execute(`SELECT * FROM users WHERE email = ?`, [email])
+  return user;
+}
+
 const findUser = async (email, password) => {
   const [user] = await connection.execute(`SELECT * FROM users
-  where email = ? and password = ?`, [email, password])
+  WHERE email = ? and password = ?`, [email, password])
   return user;
 }
 
@@ -17,5 +22,6 @@ const createUser = async (user) => {
 
 module.exports = {
   createUser,
-  findUser
+  findUser,
+  getUserByEmail
 }
