@@ -14,7 +14,8 @@ const getAssetById = async(req, res) => {
 
 const getUserWithAsset = async(req, res) => {
   const {id} = req.params;
-  const user = await assetsService.getUserWithAsset(id);
+  const { id: userId } = res.locals.payload;
+  const user = await assetsService.getUserWithAsset(id, userId);
   res.status(200).json(user);
 }
 

@@ -16,8 +16,12 @@ const getAssetById = async (id) => {
   return rest;
 }
 
-const getUserWithAsset = async(id) => {
+const getUserWithAsset = async(id, userId) => {
   const [data] = await assetsModel.getUserWithAsset(id);
+
+  if(Number(id) !== userId) {
+    return CustomException({ message: 'Unauthorized user', status:400 })
+  }
 
   if(!data || data.length === 0){
     return CustomException({ message: 'User does not exist', status:404 })
